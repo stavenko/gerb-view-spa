@@ -34,7 +34,6 @@ impl Redux {
   fn update_state(&mut self, msg: Actions, _id: HandlerId) {
     match msg {
       Actions::ApplicationDragStarted => {
-        console::log_1(&JsValue::from_str(">>>>"));
 
         let state = State { 
           amount_of_drag_enter: self.state.amount_of_drag_enter + 1,
@@ -92,5 +91,4 @@ impl Agent for Redux {
   fn disconnected(&mut self, id: HandlerId) {
     self.subscribers.remove(&id);
   }
-
 }

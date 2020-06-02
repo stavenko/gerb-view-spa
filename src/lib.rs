@@ -1,5 +1,7 @@
 pub mod redux;
 pub mod components;
+pub mod css;
+pub mod rand;
 
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -69,8 +71,6 @@ pub fn main_js() -> Result<(), JsValue> {
     prevent_default_closure.forget();
     on_start.forget();
     on_end.forget();
-
-
     App::<Layout>::new().mount_to_body();
 
     Ok(())
