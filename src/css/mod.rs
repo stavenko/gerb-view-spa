@@ -57,15 +57,22 @@ impl ComponentClasses {
   }
 
   pub fn populate(&self) {
-    let style_el = document().create_element("style").unwrap();
-    style_el.set_text_content(Some(&self.prepare_content()));
-    style_el.set_id(&self.component_name);
-    match document().body() {
-      Some(body) => {
-        body.append_child(&style_el);
+    let style_el = match document().get_element_by_id(&self.component_name) {
+      Some(style_el) => style_el,
+      None => {
+        let style_el = document().create_element("style").unwrap();
+        style_el.set_id(&self.component_name);
+        match document().body() {
+          Some(body) => {
+            body.append_child(&style_el).expect("Could not append child");
+          }
+          None => {}
+        };
+        style_el
       }
-      None => {}
     };
+
+    style_el.set_text_content(Some(&self.prepare_content()));
   }
 
   pub fn cls(&self, cls: &str) -> String {

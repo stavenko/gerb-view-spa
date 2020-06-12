@@ -6,7 +6,7 @@ macro_rules! css_rule {
       let mut left = Vec::<String>::new();
       let mut right = Vec::<String>::new();
       let mut selector_finished = false;
-      let mut result = HashMap::<String, String>::new();
+      let mut result = std::collections::HashMap::<String, String>::new();
       $(
         let token: &str = stringify!($f);
         match token {
@@ -15,7 +15,7 @@ macro_rules! css_rule {
           ";" => {
             selector_finished = false;
             let selector = left.iter().fold(String::new(), |acc, s| acc + s);
-            let rule = right.iter().fold(String::new(), |acc, s| acc + s);
+            let rule = right.join(" ");
             result.insert(selector, rule);
             left.clear();
             right.clear();

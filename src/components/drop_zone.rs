@@ -2,11 +2,14 @@ use yew::prelude::*;
 use wasm_bindgen::prelude::*;
 use yew::agent::{Dispatcher, Dispatched };
 use crate::redux::*;
+use crate::css::*;
+use crate::css_rule;
 use web_sys::{ console, DragEvent};
 
 pub struct DropZone {
   redux: Dispatcher<Redux>,
   component: ComponentLink<Self>,
+  classes: ComponentClasses
 }
 
 pub enum Message {
@@ -17,9 +20,20 @@ impl Component for DropZone {
   type Message = Message;
   type Properties = ();
   fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    let mut classes = ComponentClasses::new("drop-zone");
+    classes
+      .add_class("drop-zone", css_rule! {
+        min-height: 300px;
+        background-color: red;
+        border: 1px solid green;
+        color: white;
+      });
+    classes.populate();
+
     DropZone {
       redux: Redux::dispatcher(),
       component: link,
+      classes
     }
   }
 
@@ -44,9 +58,8 @@ impl Component for DropZone {
       Message::DragStop(evt)
     }); 
 
-
     html! {
-      <span ondrop=ondrop_cb>{"drop here"}</span>
+      <div class = self.classes.cls("drop-zone") ondrop=ondrop_cb>{"Drop here"}</div>
     }
   }
 }
